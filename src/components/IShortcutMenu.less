@@ -1,0 +1,40 @@
+@main-color: #1b5fa4;
+@minor-color: #1e8fff;
+@scroll-bar-color: #c8bcbc;
+.idm-shortcut-menu {
+    width: 60px;
+    height: 800px;
+    background-color: @main-color;
+
+    .idm-shortcut-menu-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+        margin: 0 0 10px 0;
+        cursor: pointer;
+        &:hover {
+            background-color: @minor-color;
+        }
+    }
+    .idm-shortcut-menu-icon {
+        text-align: center;
+        color: #fff;
+        font-size: 22px;
+        margin: 10px 0 0 0;
+    }
+    .idm-shortcut-menu-text {
+        text-align: center;
+        color: #fff;
+        font-size: 13px;
+        margin-top: -3px;
+        height: 39px;
+        width: 100%;
+        word-break: break-all;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+}

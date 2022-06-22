@@ -1,0 +1,157 @@
+{
+    "code": "200",
+    "type": "success",
+    "message": "获取成功",
+    "metadata": null,
+    "token": null,
+    "data": {
+        "shortCut": [
+            {
+                "badgeAction": "",
+                "isTabReload": "-1",
+                "name": "服务开通情况一览",
+                "icon": "iconfuwuzhongxin",
+                "link": "../../ctrl/list/180925211618rGFRO5jFc3h5FZSbEOx?moduleId=180925211500xenaLiFJZFBs5FxtCK7",
+                "menuId": "180802174710CM1ne8oS7D9uZ3QlRnN",
+                "id": "200819032505wojCx49Dqt5sLavzEo6",
+                "target": "main"
+            },
+            {
+                "badgeAction": "",
+                "isTabReload": "-1",
+                "name": "机构管理",
+                "icon": "menu-42",
+                "link": "../../ctrl/orginization/index",
+                "menuId": "180507204333hkDTTumAXqB2W3q3pu1",
+                "id": "200819032506Mi1jFL0WnFBTb3bbryg",
+                "target": "main"
+            },
+            {
+                "badgeAction": "",
+                "isTabReload": "-1",
+                "name": "机构角色维护",
+                "icon": "",
+                "link": "../../ctrl/application/index?type=role",
+                "menuId": "200424102840NHVkQfZ8aQpyhOJtZQ4",
+                "id": "200819032506PocJMXzDkbJ4kcKlumk",
+                "target": "main"
+            },
+            {
+                "badgeAction": "",
+                "isTabReload": "-1",
+                "name": "部门管理",
+                "icon": "menu-51",
+                "link": "../../ctrl/department/index",
+                "menuId": "180507204333hkDTTumAXqB2W3q3puV",
+                "id": "200819033310QycVAnrsrHxytTBC72P",
+                "target": "main"
+            },
+            {
+                "badgeAction": "",
+                "isTabReload": "-1",
+                "name": "权限管理",
+                "icon": "iconquanxianguanli",
+                "link": "../../ctrl/privilege/index",
+                "menuId": "1805081136094gsfJ7tfaXNlwpcfUWi",
+                "id": "20081903331213o2g6muKUQvGCqJExP",
+                "target": "main"
+            },
+            {
+                "badgeAction": "",
+                "isTabReload": "-1",
+                "name": "用户管理",
+                "icon": "iconaccount-circle",
+                "link": "../../ctrl/userinfo/index",
+                "menuId": "180506173617E0znmguVS9bLS3j7GlA",
+                "id": "200819033316khAJSffjkJjhpCEwRwk",
+                "target": "main"
+            },
+            {
+                "badgeAction": "",
+                "isTabReload": "-1",
+                "name": "机构权限维护",
+                "icon": "",
+                "link": "../../ctrl/application/index?type=privilege",
+                "menuId": "200424101949DugVFqB4DgX24nbcbhH",
+                "id": "200819033317SEaIctijLvC6FiKzx9a",
+                "target": "main"
+            },
+            
+            {
+                "badgeAction": "",
+                "isTabReload": "-1",
+                "name": "服务开通情况一览",
+                "icon": "iconfuwuzhongxin",
+                "link": "../../ctrl/list/180925211618rGFRO5jFc3h5FZSbEOx?moduleId=180925211500xenaLiFJZFBs5FxtCK7",
+                "menuId": "180802174710CM1ne8oS7D9uZ3QlRnN",
+                "id": "200819032505wojCx49Dqt5sLavzE11",
+                "target": "main"
+            },
+            {
+                "badgeAction": "",
+                "isTabReload": "-1",
+                "name": "机构管理",
+                "icon": "menu-42",
+                "link": "../../ctrl/orginization/index",
+                "menuId": "180507204333hkDTTumAXqB2W3q3pu1",
+                "id": "200819032506Mi1jFL0WnFBTb3bbr11",
+                "target": "main"
+            },
+            {
+                "badgeAction": "",
+                "isTabReload": "-1",
+                "name": "机构角色维护",
+                "icon": "",
+                "link": "../../ctrl/application/index?type=role",
+                "menuId": "200424102840NHVkQfZ8aQpyhOJtZQ4",
+                "id": "200819032506PocJMXzDkbJ4kcKlu11",
+                "target": "main"
+            },
+            {
+                "badgeAction": "",
+                "isTabReload": "-1",
+                "name": "部门管理",
+                "icon": "menu-51",
+                "link": "../../ctrl/department/index",
+                "menuId": "180507204333hkDTTumAXqB2W3q3puV",
+                "id": "200819033310QycVAnrsrHxytTBC711",
+                "target": "main"
+            },
+            {
+                "badgeAction": "",
+                "isTabReload": "-1",
+                "name": "权限管理",
+                "icon": "iconquanxianguanli",
+                "link": "../../ctrl/privilege/index",
+                "menuId": "1805081136094gsfJ7tfaXNlwpcfUWi",
+                "id": "20081903331213o2g6muKUQvGCqJE11",
+                "target": "main"
+            },
+            {
+                "badgeAction": "",
+                "isTabReload": "-1",
+                "name": "用户管理",
+                "icon": "iconaccount-circle",
+                "link": "../../ctrl/userinfo/index",
+                "menuId": "180506173617E0znmguVS9bLS3j7GlA",
+                "id": "200819033316khAJSffjkJjhpCEwR11",
+                "target": "main"
+            },
+            {
+                "badgeAction": "",
+                "isTabReload": "-1",
+                "name": "机构权限维护",
+                "icon": "",
+                "link": "../../ctrl/application/index?type=privilege",
+                "menuId": "200424101949DugVFqB4DgX24nbcbhH",
+                "id": "200819033317SEaIctijLvC6FiKz11a",
+                "target": "main"
+            }
+        ],
+        "skin": "green",
+        "sum": 7,
+        "rows": 8,
+        "cols": 1,
+        "height": 768
+    }
+}
