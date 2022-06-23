@@ -131,11 +131,11 @@ const CommonFunction: React.FC<IProp> = (props) => {
         const jump = scrollBox.find('.idm-create-menu-app-group-item')
         const topArr: Array<number> = []
         for (let i = 0; i < jump.length; i++) {
-            topArr.push(jump.eq(i).position().top || 0)
+            topArr.push(jump.eq(i).position().top)
         }
-        // 监听dom元素的scroll事件
-        scrollBox.scroll(function () {
+        const scroll = window._.debounce(function () {
             const current_offset_top = scrollBox.scrollTop() || 0
+            console.log(current_offset_top)
             for (let i = 0; i < topArr.length; i++) {
                 if (current_offset_top <= topArr[i]) {
                     // 根据滚动距离判断应该滚动到第几个导航的位置
@@ -148,7 +148,9 @@ const CommonFunction: React.FC<IProp> = (props) => {
                     break
                 }
             }
-        })
+        }, 500)
+        // 监听dom元素的scroll事件
+        scrollBox.scroll(scroll)
     }
     const getClassStr = (icon): string => {
         return '1'

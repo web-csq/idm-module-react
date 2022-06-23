@@ -322,10 +322,10 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
     }
 
     handleCommonFunctionClose(e) {
-        console.log(e)
         this.setState({
             commonFunctionShow: false
         })
+        this.initData()
     }
 
     handleClickItem(item) {
