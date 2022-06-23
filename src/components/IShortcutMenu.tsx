@@ -329,7 +329,8 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
     }
 
     handleClickItem(item) {
-        if (this.state.moduleObject.env === 'develop') return
+        console.log(this)
+        if (this.state.env === 'develop') return
         if (item.script) {
             switch (item.script) {
                 case 'newFile':
