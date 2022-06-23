@@ -21,7 +21,7 @@
             "desc": "提供设置组件能达到展示效果的基本属性设置信息",
             "children": [
                 {
-                    "type": "switch",
+                    "type": "input",
                     "layoutType": "inline",
                     "text": "组件标题",
                     "bindKey": "title",
@@ -29,21 +29,38 @@
                     "desc": "将内容显示为html标签的title，也就是鼠标放上去会有显示文本内容的文字"
                 },
                 {
-                    "type": "radio",
+                    "type": "input",
                     "layoutType": "inline",
-                    "text": "默认状态",
-                    "bindKey": "defaultStatus",
-                    "dictionary": [
-                        {
-                            "label": "普通",
-                            "value": "default"
-                        },
-                        {
-                            "label": "隐藏",
-                            "value": "hidden"
-                        }
-                    ],
-                    "default": "default"
+                    "text": "接口地址",
+                    "bindKey": "interfaceUrl",
+                    "desc": "获取快捷菜单的接口地址",
+                    "default": "ctrl/api/frame/getShortCutInfo"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "图标URL",
+                    "bindKey": "iconfontUrl",
+                    "desc": "从iconfont下载的图标库文件夹地址， 不需要具体到文件，比如：图标css文件的路径是【/project/font_1248060_zpcega7i6m9/iconfont.css】，我们这里只需要填写【/project/font_1248060_zpcega7i6m9/】，注意：里面的文件建议不要做任何修改，否则可能读取不正确，为空时默认使用项目自带iconfont，反之设置自定义路径后iconfont类名将从接口获取",
+                    "placeholder": "请输入"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "图标前缀",
+                    "bindKey": "iconPrefix",
+                    "desc": "设置iconfont类名前缀，如类名是iconfont icon-shouye前缀为icon-",
+                    "default": "",
+                    "placeholder": "请输入"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "图标字体",
+                    "bindKey": "iconFontFamily",
+                    "desc": "设置iconfont字体，如类名是iconfont icon-shouye字体为iconfont",
+                    "default": "",
+                    "placeholder": "请输入"
                 }
             ]
         },
@@ -54,34 +71,47 @@
             "helpUrl": "",
             "children": [
                 {
-                    "type": "box",
-                    "layoutType": "block",
-                    "text": "内外边距",
-                    "bindKey": "box"
-                },
-                {
-                    "type": "inlineGroup",
-                    "text": "宽高",
-                    "children": [
+                    "type": "radio",
+                    "layoutType": "inline",
+                    "text": "高度模式",
+                    "desc": "用于设置组件高度方式，如果是不适配响应父容器选择固定值就好，如果需要适配父容器(或其他)组件传递的具体值则选择适应容器即可",
+                    "bindKey": "heightType",
+                    "dictionary": [
                         {
-                            "type": "input",
-                            "layoutType": "block",
-                            "text": "宽",
-                            "desc": "填写auto则为自适应，或者使用px、%、vw等单位，比如100%、100px、100vw等等",
-                            "bindKey": "width",
-                            "width": "60px",
-                            "default": "100%"
+                            "label": "固定值",
+                            "value": "fixed"
                         },
                         {
-                            "type": "input",
-                            "layoutType": "block",
-                            "text": "高",
-                            "desc": "填写auto则为自适应，或者使用px、%、vh等单位，比如100%、100px、100vh等等",
-                            "bindKey": "height",
-                            "width": "60px",
-                            "default": "auto"
+                            "label": "适应容器",
+                            "value": "adaptive"
                         }
-                    ]
+                    ],
+                    "default": "fixed"
+                },
+                {
+                    "type": "inputNumber",
+                    "layoutType": "inline",
+                    "text": "宽(px)",
+                    "desc": "填写auto则为自适应，或者使用px、%、vw等单位，比如100%、100px、100vw等等",
+                    "bindKey": "width",
+                    "default": 60
+                },
+                {
+                    "type": "inputNumber",
+                    "layoutType": "inline",
+                    "text": "高度(px)",
+                    "bindKey": "moduleHeight",
+                    "desc": "用于设置组件的具体高度px值",
+                    "maxLength": 10000,
+                    "display": "@[heightType == 'fixed']",
+                    "minLength": 0,
+                    "default": 800
+                },
+                {
+                    "type": "box",
+                    "layoutType": "block",
+                    "text": "内部边距",
+                    "bindKey": "box"
                 },
                 {
                     "type": "group",
@@ -262,16 +292,99 @@
                     ]
                 },
                 {
-                    "type": "border",
-                    "layoutType": "block",
-                    "text": "边框",
-                    "bindKey": "border"
-                },
-                {
                     "type": "font",
                     "layoutType": "block",
                     "text": "文字",
                     "bindKey": "font"
+                }
+            ]
+        },
+        {
+            "type": "table",
+            "text": "主题设置",
+            "desc": "点击？查看主题设置用法指南",
+            "bindKey": "themeList",
+            "tabText": "主题[index]",
+            "default": [
+                {
+                    "key": "blue",
+                    "mainColor": {
+                        "hex": "#0073CA",
+                        "hex8": "#0073CAFF"
+                    },
+                    "minorColor": {
+                        "hex": "#329cec",
+                        "hex8": "#329cecFF"
+                    }
+                },
+                {
+                    "key": "red",
+                    "mainColor": {
+                        "hex": "#E21A1A",
+                        "hex8": "#E21A1AFF"
+                    },
+                    "minorColor": {
+                        "hex": "#f87373",
+                        "hex8": "#f87373FF"
+                    }
+                },
+                {
+                    "key": "green",
+                    "mainColor": {
+                        "hex": "#0EAF64",
+                        "hex8": "#0EAF64FF"
+                    },
+                    "minorColor": {
+                        "hex": "#38e996",
+                        "hex8": "#38e996FF"
+                    }
+                }
+            ],
+            "children": [
+                {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "主题标识",
+                    "bindKey": "key",
+                    "multiple": false,
+                    "desc": "用于设置主题的标识，此项需要搭配自定义开发切换主题的功能，例如：蓝色标识为blue，用户切换主题的时候存储到数据库中的标识为blue，则这里填写为blue",
+                    "default": "",
+                    "placeholder": "例如：blue",
+                    "ctrlAttrObject": {
+                        "mode": "combobox"
+                    },
+                    "dictionary": [
+                        {
+                            "label": "blue",
+                            "value": "blue"
+                        },
+                        {
+                            "label": "red",
+                            "value": "red"
+                        },
+                        {
+                            "label": "green",
+                            "value": "green"
+                        }
+                    ]
+                },
+                {
+                    "type": "colorPicker",
+                    "layoutType": "inline",
+                    "text": "主要颜色",
+                    "bindKey": "mainColor",
+                    "desc": "主题的主要颜色",
+                    "placeholder": "请选择颜色",
+                    "display": "@[key]"
+                },
+                {
+                    "type": "colorPicker",
+                    "layoutType": "inline",
+                    "text": "次要颜色",
+                    "bindKey": "minorColor",
+                    "desc": "主题的次要颜色",
+                    "placeholder": "请选择颜色",
+                    "display": "@[key]"
                 }
             ]
         },

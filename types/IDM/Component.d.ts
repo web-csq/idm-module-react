@@ -1,10 +1,15 @@
+interface ModuleObject {
+  env: 'develop' | 'production'
+}
 interface IDMCommonState {
-  propData: any
+  propData: any,
+  moduleObject: ModuleObject
 }
 
 interface IDMCommonProp {
   id: string,
-  className: string
+  className: string,
+  moduleObject: object
 }
 
 interface IDMReactComponent {

@@ -1,31 +1,59 @@
 import { Component } from 'react'
 import './IShortcutMenu.less'
-import '../../public/static/menu-icon/iconfont.css';
+import '../../public/static/menu-icon/iconfont.css'
 import responseData from '../mockData/ShortCutInfo.json'
+import CreateMenu from '../commonComponents/CreateMenu'
+import CommonFunction from '../commonComponents/CommonFunctions'
 interface IState extends IDMCommonState {
     text: string
+    moduleHeight: number
+    isHover: boolean
     shortCutData: {
         shortCut: Array<any>
     }
+    createMenuShow: boolean
+    commonFunctionShow: boolean
+    pageShortcutList: Array<any>
 }
-class DemoText extends Component<IDMCommonProp, IState> {
+class IShortcutMenu extends Component<IDMCommonProp, IState> {
     constructor(props) {
         super(props)
         this.state = {
             shortCutData: responseData.data,
+            createMenuShow: false,
+            commonFunctionShow: false,
+            isHover: false,
+            moduleHeight: 800,
+            pageShortcutList: [
+                [
+                    {
+                        badgeAction: '',
+                        isTabReload: '',
+                        name: ' ',
+                        icon: '',
+                        link: '',
+                        menuId: '',
+                        id: '200819032505wojCx49Dqt5sLavzEo6',
+                        target: ''
+                    }
+                ]
+            ],
             propData: {
                 title: '页面标题',
-                text: '测试文本'
+                text: '测试文本',
+                interfaceUrl: 'ctrl/api/frame/getShortCutInfo'
             },
             ...props
         }
+        // 防抖处理
+        this.sliceShortcutData = window._.debounce(this.sliceShortcutData, 400)
     }
     /**
      * 把属性转换成样式对象
      */
     convertAttrToStyleObject(stateObj) {
         const { propData, id } = stateObj
-        var styleObject = {}
+        const styleObject = {}
         if (propData.bgSize && propData.bgSize === 'custom') {
             styleObject['background-size'] =
                 (propData.bgSizeWidth ? propData.bgSizeWidth.inputVal + propData.bgSizeWidth.selectVal : 'auto') +
@@ -48,10 +76,7 @@ class DemoText extends Component<IDMCommonProp, IState> {
                 }
                 switch (key) {
                     case 'width':
-                        styleObject[key] = element
-                        break
-                    case 'height':
-                        styleObject[key] = element
+                        styleObject[key] = element + 'px'
                         break
                     case 'font':
                         styleObject['font-family'] = element.fontFamily
@@ -66,6 +91,30 @@ class DemoText extends Component<IDMCommonProp, IState> {
                             (element.fontLineHeightUnit === '-' ? '' : element.fontLineHeightUnit)
                         styleObject['text-align'] = element.fontTextAlign
                         styleObject['text-decoration'] = element.fontDecoration
+                        break
+                    case 'bgColor':
+                        if (element && element.hex8) {
+                            styleObject['background-color'] = element.hex8 + ' !important'
+                        }
+                        break
+                    case 'bgImgUrl':
+                        styleObject['background-image'] = `url(${window.IDM.url.getWebPath(element)})`
+                        break
+                    case 'positionX':
+                        //背景横向偏移
+
+                        break
+                    case 'positionY':
+                        //背景纵向偏移
+
+                        break
+                    case 'bgRepeat':
+                        //平铺模式
+                        styleObject['background-repeat'] = element
+                        break
+                    case 'bgAttachment':
+                        //背景模式
+                        styleObject['background-attachment'] = element
                         break
                     case 'box':
                         if (element.marginTopVal) {
@@ -93,52 +142,83 @@ class DemoText extends Component<IDMCommonProp, IState> {
                             styleObject['padding-left'] = `${element.paddingLeftVal}`
                         }
                         break
-                    case 'border':
-                        if (element.border.top.width > 0) {
-                            styleObject['border-top-width'] = element.border.top.width + element.border.top.widthUnit
-                            styleObject['border-top-style'] = element.border.top.style
-                            if (element.border.top.colors.hex8) {
-                                styleObject['border-top-color'] = element.border.top.colors.hex8
-                            }
-                        }
-                        if (element.border.right.width > 0) {
-                            styleObject['border-right-width'] =
-                                element.border.right.width + element.border.right.widthUnit
-                            styleObject['border-right-style'] = element.border.right.style
-                            if (element.border.right.colors.hex8) {
-                                styleObject['border-right-color'] = element.border.right.colors.hex8
-                            }
-                        }
-                        if (element.border.bottom.width > 0) {
-                            styleObject['border-bottom-width'] =
-                                element.border.bottom.width + element.border.bottom.widthUnit
-                            styleObject['border-bottom-style'] = element.border.bottom.style
-                            if (element.border.bottom.colors.hex8) {
-                                styleObject['border-bottom-color'] = element.border.bottom.colors.hex8
-                            }
-                        }
-                        if (element.border.left.width > 0) {
-                            styleObject['border-left-width'] = element.border.left.width + element.border.left.widthUnit
-                            styleObject['border-left-style'] = element.border.left.style
-                            if (element.border.left.colors.hex8) {
-                                styleObject['border-left-color'] = element.border.left.colors.hex8
-                            }
-                        }
-
-                        styleObject['border-top-left-radius'] =
-                            element.radius.leftTop.radius + element.radius.leftTop.radiusUnit
-                        styleObject['border-top-right-radius'] =
-                            element.radius.rightTop.radius + element.radius.rightTop.radiusUnit
-                        styleObject['border-bottom-left-radius'] =
-                            element.radius.leftBottom.radius + element.radius.leftBottom.radiusUnit
-                        styleObject['border-bottom-right-radius'] =
-                            element.radius.rightBottom.radius + element.radius.rightBottom.radiusUnit
-                        break
                 }
             }
         }
-        window.IDM.setStyleToPageHead(id, styleObject)
+        window.IDM.setStyleToPageHead(id + ' .idm-shortcut-menu-box-container', {
+            ...styleObject,
+            height: `calc(${this.state.moduleHeight}px - 60px)`
+        })
         this.initData()
+    }
+    // 获取单列数量
+    getOneLineNumber() {
+        const oneBox = $('.idm-shortcut-menu-box')[0]
+        const containerBox = $('.idm-shortcut-menu-box-container')[0]
+        const oneHeight =
+            parseInt(window.getComputedStyle(oneBox)['height']) +
+            parseInt(window.getComputedStyle(oneBox)['margin-bottom'])
+        const totalHeight = parseInt(window.getComputedStyle(containerBox)['height']) - 70 // 减去底部的高
+        return Math.floor(totalHeight / oneHeight)
+    }
+    // 主题
+    convertThemeListAttrToStyleObject() {
+        var themeList = this.state.propData.themeList
+        if (!themeList) {
+            return
+        }
+        const themeNamePrefix =
+            window.IDM.setting && window.IDM.setting.applications && window.IDM.setting.applications.themeNamePrefix
+                ? window.IDM.setting.applications.themeNamePrefix
+                : 'idm-theme-'
+        for (var i = 0; i < themeList.length; i++) {
+            var item = themeList[i]
+            const mainBgColorObj = {
+                'background-color': item.mainColor ? window.IDM.hex8ToRgbaString(item.mainColor.hex8) : ''
+            }
+            const minorBgColorObj = {
+                'background-color': item.minorColor ? window.IDM.hex8ToRgbaString(item.minorColor.hex8) : ''
+            }
+            window.IDM.setStyleToPageHead(
+                '.' + themeNamePrefix + item.key + ' .idm-shortcut-menu-box-container',
+                mainBgColorObj
+            )
+            window.IDM.setStyleToPageHead(
+                '.' + themeNamePrefix + item.key + ' .idm-shortcut-menu-box:hover',
+                minorBgColorObj
+            )
+        }
+    }
+    // 切割数组
+    sliceShortcutData() {
+        const list: Array<any> = []
+        const number = this.getOneLineNumber()
+        this.state.shortCutData.shortCut.forEach((element, index) => {
+            let key = Math.floor(index / number)
+            if (!list[key]) {
+                list[key] = []
+            }
+            list[key].push(element)
+        })
+        console.log(list, '<-----------------')
+        this.setState({ pageShortcutList: list })
+    }
+    componentDidMount() {
+        this.sliceShortcutData()
+    }
+    handleMouseEnter() {
+        this.setState({ isHover: true })
+    }
+    handleMouseLeave() {
+        this.setState({ isHover: false })
+    }
+    getPositionStyle(indexs) {
+        const index = indexs + 1
+        return {
+            left: this.state.isHover ? (this.state.propData.width + 1) * index + 'px' : '0',
+            transition: `left ${index * 0.1}s`,
+            zIndex: index
+        }
     }
     /**
      * 重新加载
@@ -150,14 +230,43 @@ class DemoText extends Component<IDMCommonProp, IState> {
     /**
      * 加载动态数据
      */
-    initData() {}
+    initData() {
+        this.state.propData.interfaceUrl &&
+            window.IDM.http
+                .get(this.state.propData.interfaceUrl)
+                .then((res) => {
+                    if (res.status === 200 && res.data.code === '200') {
+                        this.setState({ shortCutData: res.data.data }, () => {
+                            this.sliceShortcutData()
+                        })
+                    } else {
+                        window.IDM.message.error(res.data.message)
+                    }
+                })
+                .catch(function (error) {})
+    }
+    resizeContentWrapperHeight(wrapperHeight?: number) {
+        let moduleHeight = this.state.propData.moduleHeight
+        if (this.state.propData.heightType === 'adaptive' && wrapperHeight) {
+            //自适应父级容器
+            moduleHeight = wrapperHeight
+        }
+        this.setState({
+            moduleHeight
+        })
+    }
     /**
      * 提供父级组件调用的刷新prop数据组件
      */
     propDataWatchHandle(propData) {
         const stateObj = { ...this.state, propData }
-        this.setState(stateObj)
-        // setState是异步，把state当参数传进去，确保数据同步
+        this.setState(stateObj, () => {
+            // setState是异步 需要放在回调里
+            this.sliceShortcutData()
+            this.convertThemeListAttrToStyleObject()
+            this.resizeContentWrapperHeight()
+        })
+        // 另一种方法，把state当参数传进去，确保数据同步
         this.convertAttrToStyleObject(stateObj)
     }
     /**
@@ -185,23 +294,125 @@ class DemoText extends Component<IDMCommonProp, IState> {
      * } object
      */
     receiveBroadcastMessage(object) {
-        console.log(`收到消息 ---> ${object}`)
+        console.log('组件收到消息', object)
+        switch (object.type) {
+            case 'regionResize':
+                if (object.message && object.message.gridEleTarget) {
+                    let gridEleTarget = object.message.gridEleTarget
+                    if (gridEleTarget && gridEleTarget.offsetHeight) {
+                        this.resizeContentWrapperHeight(gridEleTarget.offsetHeight)
+                    }
+                }
+                break
+        }
+    }
+
+    replaceAction(action) {
+        if (action.indexOf('../../') === 0) {
+            return window.IDM.url.getWebPath(action.replace('../../', ''))
+        } else {
+            return action
+        }
+    }
+
+    handleClickIcon() {
+        this.setState({
+            commonFunctionShow: true
+        })
+    }
+
+    handleCommonFunctionClose(e) {
+        console.log(e)
+        this.setState({
+            commonFunctionShow: false
+        })
+    }
+
+    handleClickItem(item) {
+        if (this.state.moduleObject.env === 'develop') return
+        if (item.script) {
+            switch (item.script) {
+                case 'newFile':
+                    // this.openWyj()
+                    break
+                case 'remind':
+                    item.link = this.replaceAction('../../ctrl/remind/index')
+                    this.sendBroadcastMessage({
+                        type: 'addTab',
+                        className: '',
+                        message: item
+                    })
+                    break
+            }
+            return
+        }
+        if (item.action.indexOf('javascript') === 0) {
+            eval(this.replaceAction(item.link).replace('javascript:', ''))
+        } else {
+            this.sendBroadcastMessage({
+                type: 'addTab',
+                className: '',
+                message: item
+            })
+        }
     }
 
     render() {
         const { id } = this.props
-        const { propData, shortCutData } = this.state
+        const { pageShortcutList, moduleHeight } = this.state
         return (
-            <div idm-ctrl="idm_module" className="idm-shortcut-menu" idm-ctrl-id={id}>
-                {shortCutData.shortCut.map((el) => (
-                    <div className="idm-shortcut-menu-box" key={el.id}>
-                        <i className="oa-menu-iconfont oa-menu-tuceng idm-shortcut-menu-icon"></i>
-                        <div className="idm-shortcut-menu-text" title={el.name}>{el.name}</div>
+            <>
+                <div idm-ctrl="idm_module" className="idm-shortcut-menu" idm-ctrl-id={id}>
+                    <div
+                        className="idm-shortcut-menu-box-container"
+                        style={{ left: 0, zIndex: 200, height: moduleHeight + 'px' }}
+                        onMouseLeave={this.handleMouseLeave.bind(this)}
+                        onMouseEnter={this.handleMouseEnter.bind(this)}
+                    >
+                        {pageShortcutList[0].map((el) => (
+                            <div className="idm-shortcut-menu-box" key={el.id} onClick={() => this.handleClickItem(el)}>
+                                <i className="oa-menu-iconfont oa-menu-tuceng idm-shortcut-menu-icon"></i>
+                                <div className="idm-shortcut-menu-text" title={el.name}>
+                                    {el.name}
+                                </div>
+                            </div>
+                        ))}
+                        <div className="idm-shortcut-menu-add">
+                            <i onClick={this.handleClickIcon.bind(this)} className="oa-menu-iconfont oa-menu-zengjiatianjiajiahao idm-shortcut-menu-add-icon"></i>
+                        </div>
                     </div>
-                ))}
-            </div>
+                    {pageShortcutList
+                        .filter((el, index) => index !== 0)
+                        .map((els, indexs) => {
+                            return (
+                                <div
+                                    onMouseLeave={this.handleMouseLeave.bind(this)}
+                                    onMouseEnter={this.handleMouseEnter.bind(this)}
+                                    className="idm-shortcut-menu-box-container"
+                                    key={indexs}
+                                    style={this.getPositionStyle(indexs)}
+                                >
+                                    {els.map((item) => (
+                                        <div
+                                            className="idm-shortcut-menu-box"
+                                            key={item.id}
+                                            onClick={() => this.handleClickItem(item)}
+                                        >
+                                            <i className="oa-menu-iconfont oa-menu-tuceng idm-shortcut-menu-icon"></i>
+                                            <div className="idm-shortcut-menu-text" title={item.name}>
+                                                {item.name}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )
+                        })}
+                </div>
+                <CreateMenu createMenuShow={this.state.createMenuShow}></CreateMenu>
+                <CommonFunction commonFunctionShow={this.state.commonFunctionShow} handleCommonFunctionClose={this.handleCommonFunctionClose.bind(this)}></CommonFunction>
+            </>
         )
     }
 }
 
-export default DemoText
+export default IShortcutMenu
