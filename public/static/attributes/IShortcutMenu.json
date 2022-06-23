@@ -104,7 +104,7 @@
                     "desc": "用于设置组件的具体高度px值",
                     "maxLength": 10000,
                     "display": "@[heightType == 'fixed']",
-                    "minLength": 0,
+                    "minLength": 200,
                     "default": 800
                 },
                 {

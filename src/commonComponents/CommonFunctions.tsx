@@ -11,7 +11,6 @@ interface IState {
     yxDataList: Array<any>
     dxDataList: Array<any>
     lsDataList: string
-    activeAnchor: number
     searchValue: string
     changeUrl: string
     dialogHeight: number
@@ -21,11 +20,11 @@ const CommonFunction: React.FC<IProp> = (props) => {
         yxDataList: [],
         dxDataList: [],
         lsDataList: '',
-        activeAnchor: 0,
         searchValue: '',
         changeUrl: 'ctrl/shortcut/change',
         dialogHeight: 400
     })
+    const [activeAnchor, setActiveAnchor] = useState(0)
     useEffect(() => {
         if (props.commonFunctionShow) {
             initData()
@@ -109,17 +108,14 @@ const CommonFunction: React.FC<IProp> = (props) => {
         })
     }
     const jumpAnchor = (index) => {
-        setPageState({
-            ...pageState,
-            activeAnchor: index
-        }) // 当前导航
+        setActiveAnchor(index)
         const jump = $('.idm-create-menu-app-content').find('.idm-create-menu-app-group-item').eq(index)
-        const scrollTop = jump.position().top + ($('.idm-create-menu-app-content')?.scrollTop() || 0) // 获取需要滚动的距离
+        const scrollTop = jump.position().top + ($('.idm-create-menu-app-content').scrollTop() || 0) // 获取需要滚动的距离
         $('.idm-create-menu-app-content').scrollTop(scrollTop)
     }
     const jumpAttach = () => {
         let attachAnchor = $('.idm-create-menu-app-anchor-box')
-        const jump = attachAnchor.find('.idm-create-menu-inner-item').eq(pageState.activeAnchor)
+        const jump = attachAnchor.find('.idm-create-menu-inner-item').eq(activeAnchor)
         const scrollTop = jump.position().top + (attachAnchor?.scrollTop() || 0) // 获取需要滚动的距离
         var aaheight = attachAnchor.height() || 0
         if (jump.position().top + 50 > aaheight || jump.position().top < 0) {
@@ -139,10 +135,7 @@ const CommonFunction: React.FC<IProp> = (props) => {
             for (let i = 0; i < topArr.length; i++) {
                 if (current_offset_top <= topArr[i]) {
                     // 根据滚动距离判断应该滚动到第几个导航的位置
-                    setPageState({
-                        ...pageState,
-                        activeAnchor: i
-                    })
+                    setActiveAnchor(i)
                     // 滚动到顶部位置
                     jumpAttach()
                     break
@@ -323,7 +316,7 @@ const CommonFunction: React.FC<IProp> = (props) => {
                 <div className="idm-create-menu-inner-anchor">
                     <div className="idm-create-menu-app-anchor-box">
                         <div
-                            className={`idm-create-menu-inner-item ${pageState.activeAnchor === 0 ? 'active' : ''}`}
+                            className={`idm-create-menu-inner-item ${activeAnchor === 0 ? 'active' : ''}`}
                             onClick={() => jumpAnchor(0)}
                         >
                             <i></i>已选
@@ -331,7 +324,7 @@ const CommonFunction: React.FC<IProp> = (props) => {
                         {pageState.dxDataList.map((el: any, index) => (
                             <div
                                 className={`idm-create-menu-inner-item ${
-                                    pageState.activeAnchor === index + 1 ? 'active' : ''
+                                    activeAnchor === index + 1 ? 'active' : ''
                                 }`}
                                 onClick={() => jumpAnchor(index + 1)}
                                 key={index + 11111}

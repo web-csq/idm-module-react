@@ -53,7 +53,8 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
      */
     convertAttrToStyleObject(stateObj) {
         const { propData, id } = stateObj
-        const styleObject = {}
+        const styleObject = {},
+            fontObj = {}
         if (propData.bgSize && propData.bgSize === 'custom') {
             styleObject['background-size'] =
                 (propData.bgSizeWidth ? propData.bgSizeWidth.inputVal + propData.bgSizeWidth.selectVal : 'auto') +
@@ -79,18 +80,18 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                         styleObject[key] = element + 'px'
                         break
                     case 'font':
-                        styleObject['font-family'] = element.fontFamily
+                        fontObj['font-family'] = element.fontFamily
                         if (element.fontColors.hex8) {
-                            styleObject['color'] = element.fontColors.hex8
+                            fontObj['color'] = element.fontColors.hex8
                         }
-                        styleObject['font-weight'] = element.fontWeight && element.fontWeight.split(' ')[0]
-                        styleObject['font-style'] = element.fontStyle
-                        styleObject['font-size'] = element.fontSize + element.fontSizeUnit
-                        styleObject['line-height'] =
+                        fontObj['font-weight'] = element.fontWeight && element.fontWeight.split(' ')[0]
+                        fontObj['font-style'] = element.fontStyle
+                        fontObj['font-size'] = element.fontSize + element.fontSizeUnit
+                        fontObj['line-height'] =
                             element.fontLineHeight +
                             (element.fontLineHeightUnit === '-' ? '' : element.fontLineHeightUnit)
-                        styleObject['text-align'] = element.fontTextAlign
-                        styleObject['text-decoration'] = element.fontDecoration
+                        fontObj['text-align'] = element.fontTextAlign
+                        fontObj['text-decoration'] = element.fontDecoration
                         break
                     case 'bgColor':
                         if (element && element.hex8) {
@@ -149,6 +150,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
             ...styleObject,
             height: `calc(${this.state.moduleHeight}px - 60px)`
         })
+        window.IDM.setStyleToPageHead(id + ' .idm-shortcut-menu-box-container .idm-shortcut-menu-text', fontObj)
         this.initData()
     }
     // 获取单列数量
@@ -379,7 +381,10 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                             </div>
                         ))}
                         <div className="idm-shortcut-menu-add">
-                            <i onClick={this.handleClickIcon.bind(this)} className="oa-menu-iconfont oa-menu-zengjiatianjiajiahao idm-shortcut-menu-add-icon"></i>
+                            <i
+                                onClick={this.handleClickIcon.bind(this)}
+                                className="oa-menu-iconfont oa-menu-zengjiatianjiajiahao idm-shortcut-menu-add-icon"
+                            ></i>
                         </div>
                     </div>
                     {pageShortcutList
@@ -410,7 +415,10 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                         })}
                 </div>
                 <CreateMenu createMenuShow={this.state.createMenuShow}></CreateMenu>
-                <CommonFunction commonFunctionShow={this.state.commonFunctionShow} handleCommonFunctionClose={this.handleCommonFunctionClose.bind(this)}></CommonFunction>
+                <CommonFunction
+                    commonFunctionShow={this.state.commonFunctionShow}
+                    handleCommonFunctionClose={this.handleCommonFunctionClose.bind(this)}
+                ></CommonFunction>
             </>
         )
     }
