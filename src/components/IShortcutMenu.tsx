@@ -163,6 +163,30 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
         const totalHeight = parseInt(window.getComputedStyle(containerBox)['height']) - 70 // 减去底部的高
         return Math.floor(totalHeight / oneHeight)
     }
+    // 加载css
+    loadIconFile() {
+        const iconfontUrl = this.state.propData.iconfontUrl
+        if (iconfontUrl) {
+            let baseUrl =
+                iconfontUrl + (iconfontUrl.substring(iconfontUrl.length - 1, iconfontUrl.length) === '/' ? '' : '/')
+            window.IDM.http
+                .get(baseUrl + 'iconfont.json', {})
+                .then((res) => {
+                    if (!res.data) {
+                        return
+                    }
+                    //存在，加载css
+                    window.IDM.module.loadCss(window.IDM.url.getWebPath(baseUrl + 'iconfont.css'), true)
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
+        }
+    }
+    // 批量生成css类名
+    generateClassName(themePrefix, classArray) {
+        return classArray.map((el) => themePrefix + el).join(',')
+    }
     // 主题
     convertThemeListAttrToStyleObject() {
         var themeList = this.state.propData.themeList
@@ -181,6 +205,14 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
             const minorBgColorObj = {
                 'background-color': item.minorColor ? window.IDM.hex8ToRgbaString(item.minorColor.hex8) : ''
             }
+
+            const mainColorObj = {
+                color: item.mainColor ? window.IDM.hex8ToRgbaString(item.mainColor.hex8) : ''
+            }
+            const borderColorObj = {
+                'border-color': item.mainColor ? window.IDM.hex8ToRgbaString(item.mainColor.hex8) : ''
+            }
+
             window.IDM.setStyleToPageHead(
                 '.' + themeNamePrefix + item.key + ' .idm-shortcut-menu-box-container',
                 mainBgColorObj
@@ -188,6 +220,24 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
             window.IDM.setStyleToPageHead(
                 '.' + themeNamePrefix + item.key + ' .idm-shortcut-menu-box:hover',
                 minorBgColorObj
+            )
+
+            /**dialog */
+            window.IDM.setStyleToPageHead(
+                this.generateClassName('.' + themeNamePrefix + item.key + ` .idm-create-menu-app `, [
+                    `.idm-create-menu-app-group-item .idm-create-menu-app-group-title>div`,
+                    '.idm-create-menu-inner-anchor>div>div.active',
+                    '.idm-create-menu-inner-anchor>div>div.active i',
+                    '.idm-create-menu-app-search>div i'
+                ]),
+                Object.assign({}, mainColorObj, borderColorObj)
+            )
+            window.IDM.setStyleToPageHead(
+                '.' +
+                    themeNamePrefix +
+                    item.key +
+                    ` .idm-create-menu-app .idm-create-menu-app-content .idm-create-menu-app-group-item .idm-create-menu-app-group-content .idm-create-menu-app-element-item:hover`,
+                mainBgColorObj
             )
         }
     }
@@ -202,7 +252,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
             }
             list[key].push(element)
         })
-        console.log(list, '<-----------------')
+        console.log(list, '<------------- Slice done')
         this.setState({ pageShortcutList: list })
     }
     componentDidMount() {
@@ -267,6 +317,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
             this.sliceShortcutData()
             this.convertThemeListAttrToStyleObject()
             this.resizeContentWrapperHeight()
+            this.loadIconFile()
         })
         // 另一种方法，把state当参数传进去，确保数据同步
         this.convertAttrToStyleObject(stateObj)
@@ -330,6 +381,24 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
         this.initData()
     }
 
+    handleIconClassName(el) {
+        console.log(this.state.propData)
+        console.log(el)
+        // 自定义
+        const isCustom = this.state.propData.iconfontUrl ? true : false
+        // 取自定义字段 默认 iconfont
+        let fontFamily =
+            isCustom && this.state.propData.iconFontFamily ? this.state.propData.iconFontFamily : 'iconfont'
+        // 取自定义前缀 默认icon-
+        let prefix = isCustom && this.state.propData.iconPrefix ? this.state.propData.iconPrefix : 'icon-'
+        let familyStr = `${fontFamily} ${prefix}`
+        if (isCustom && el.icon) {
+            return familyStr + el.icon
+        }
+        // 没有icon 不是自定义图标库 使用本地自带图标库
+        return 'oa-menu-iconfont oa-menu-tuceng'
+    }
+
     handleClickItem(item) {
         console.log(this)
         if (this.state.env === 'develop') return
@@ -358,6 +427,9 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                 message: item
             })
         }
+        this.setState({
+            isHover: false
+        })
     }
 
     render() {
@@ -374,7 +446,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                     >
                         {pageShortcutList[0].map((el) => (
                             <div className="idm-shortcut-menu-box" key={el.id} onClick={() => this.handleClickItem(el)}>
-                                <i className="oa-menu-iconfont oa-menu-tuceng idm-shortcut-menu-icon"></i>
+                                <i className={`idm-shortcut-menu-icon ${this.handleIconClassName(el)}`}></i>
                                 <div className="idm-shortcut-menu-text" title={el.name}>
                                     {el.name}
                                 </div>

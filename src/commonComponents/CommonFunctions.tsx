@@ -129,7 +129,8 @@ const CommonFunction: React.FC<IProp> = (props) => {
         for (let i = 0; i < jump.length; i++) {
             topArr.push(jump.eq(i).position().top)
         }
-        const scroll = window._.debounce(function () {
+        // 监听dom元素的scroll事件
+        scrollBox.scroll(function () {
             const current_offset_top = scrollBox.scrollTop() || 0
             console.log(current_offset_top)
             for (let i = 0; i < topArr.length; i++) {
@@ -141,9 +142,7 @@ const CommonFunction: React.FC<IProp> = (props) => {
                     break
                 }
             }
-        }, 500)
-        // 监听dom元素的scroll事件
-        scrollBox.scroll(scroll)
+        })
     }
     const getClassStr = (icon): string => {
         return '1'
