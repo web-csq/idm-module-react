@@ -30,7 +30,12 @@ const CommonFunction: React.FC<IProp> = (props) => {
             initData()
         }
     }, [props.commonFunctionShow])
-    const initData = async () => {
+    useEffect(() => {
+        if(pageState.dxDataList.length > 0 && pageState.yxDataList.length > 0){
+            initAnchorContentScroll()
+        }
+    }, [pageState.dxDataList, pageState.yxDataList])
+    const initData = () => {
         window.IDM.http
             .get('ctrl/shortcut/list')
             .then((res) => {
@@ -61,7 +66,7 @@ const CommonFunction: React.FC<IProp> = (props) => {
                         dxDataList,
                         lsDataList
                     })
-                    initAnchorContentScroll();
+                    // initAnchorContentScroll()
                 }
             })
             .catch((err) => {})
@@ -88,10 +93,10 @@ const CommonFunction: React.FC<IProp> = (props) => {
         dxDataList = pageState.dxDataList
         let searchValueVar = pageState.searchValue
         let searchDataList: Array<any> = []
-        dxDataList.map((item: any) => {
+        dxDataList.forEach((item: any) => {
             let children: Array<any> = []
             item.children &&
-                item.children.map((sitem: any) => {
+                item.children.forEach((sitem: any) => {
                     if (sitem.menuName.indexOf(searchValueVar) > -1) {
                         children.push(sitem)
                     }
@@ -151,7 +156,7 @@ const CommonFunction: React.FC<IProp> = (props) => {
         const yxDataList = pageState.yxDataList
         const dxDataList = pageState.dxDataList
         pageState.yxDataList.forEach((sitem: any, sindex) => {
-            if (sitem.id == item.id) {
+            if (sitem.id === item.id) {
                 yxDataList.splice(sindex, 1)
             }
         })
@@ -162,7 +167,7 @@ const CommonFunction: React.FC<IProp> = (props) => {
         lsDataList.forEach((fitem, index) => {
             if (fitem.children && fitem.children.length > 0) {
                 fitem.children.forEach((sitem, sindex) => {
-                    if (sitem.id == item.menuId) {
+                    if (sitem.id === item.menuId) {
                         groupMenu = fitem
                         menuObject = sitem
                     }
@@ -171,8 +176,8 @@ const CommonFunction: React.FC<IProp> = (props) => {
         })
         //先判断是否有分组
         let hasGroup = false
-        dxDataList.map((fitem: any, index) => {
-            if (groupMenu.id == fitem.id) {
+        dxDataList.forEach((fitem: any, index) => {
+            if (groupMenu.id === fitem.id) {
                 fitem.children.push(menuObject)
                 hasGroup = true
             }
@@ -218,7 +223,7 @@ const CommonFunction: React.FC<IProp> = (props) => {
         dxDataList.forEach((fitem: any, index) => {
             if (fitem.children && fitem.children.length > 0) {
                 fitem.children.forEach((sitem, sindex) => {
-                    if (sitem.id == item.id) {
+                    if (sitem.id === item.id) {
                         fitem.children.splice(sindex, 1)
                     }
                 })
@@ -248,7 +253,7 @@ const CommonFunction: React.FC<IProp> = (props) => {
     }
     return (
         <Modal
-            title="我要建"
+            title="快捷应用"
             width={900}
             footer={
                 <div style={{ textAlign: 'center' }}>
@@ -268,8 +273,7 @@ const CommonFunction: React.FC<IProp> = (props) => {
                     placeholder="请输入关键词进行检索"
                 />
                 <div>
-                    <SearchOutlined style={{ fontSize: '20px' }} />
-                    <i className="el-icon-search"></i>
+                    <SearchOutlined className="search-icon" style={{ fontSize: '20px' }} />
                 </div>
             </div>
             <div className="idm-create-menu-app-container" style={{ height: pageState.dialogHeight + 'px' }}>
@@ -285,7 +289,7 @@ const CommonFunction: React.FC<IProp> = (props) => {
                                 <div className="idm-create-menu-app-element-item hasClose" key={index} title={el.name}>
                                     <i className={getClassStr(el.icon)}></i>
                                     {el.name}
-                                    <CloseOutlined  onClick={() => delCygn(el)}className='close-icon'/>
+                                    <CloseOutlined onClick={() => delCygn(el)} className="close-icon" />
                                 </div>
                             ))}
                         </div>
@@ -322,9 +326,7 @@ const CommonFunction: React.FC<IProp> = (props) => {
                         </div>
                         {pageState.dxDataList.map((el: any, index) => (
                             <div
-                                className={`idm-create-menu-inner-item ${
-                                    activeAnchor === index + 1 ? 'active' : ''
-                                }`}
+                                className={`idm-create-menu-inner-item ${activeAnchor === index + 1 ? 'active' : ''}`}
                                 onClick={() => jumpAnchor(index + 1)}
                                 key={index + 11111}
                             >
