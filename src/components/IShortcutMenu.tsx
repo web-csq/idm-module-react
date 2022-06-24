@@ -261,7 +261,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
         this.sliceShortcutData()
     }
     handleMouseEnter(type: 'left' | 'right') {
-        if(type === 'left'){
+        if (type === 'left') {
             this.setState({
                 isDisplayRight: true
             })
@@ -274,7 +274,8 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
     getPositionStyle(indexs) {
         const index = indexs + 1
         return {
-            left: this.state.isDisplayRight && this.state.isHover ? (this.state.propData.width + 1) * index + 'px' : '0',
+            left:
+                this.state.isDisplayRight && this.state.isHover ? (this.state.propData.width + 1) * index + 'px' : '0',
             transition: `left ${index * 0.06}s`,
             zIndex: index
         }
@@ -376,16 +377,17 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
     }
 
     handleClickIcon() {
-        if(this.state.env === 'develop') return
-        this.setState({
-            commonFunctionShow: true
-        })
+        if (this.state.env === 'develop') return
+        this.setState({ createMenuShow: true })
     }
 
     handleCommonFunctionClose(e) {
-        this.setState({
-            commonFunctionShow: false
-        })
+        this.setState({ commonFunctionShow: false })
+        this.initData()
+    }
+
+    handleCreateMenuClose() {
+        this.setState({ createMenuShow: false })
         this.initData()
     }
 
@@ -407,20 +409,17 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
 
     handleClickItem(item) {
         if (this.state.env === 'develop') return
-        
-        this.setState({
-            isDisplayRight: false
-        })
+        this.setState({ isDisplayRight: false })
         if (item.script) {
             switch (item.script) {
                 case 'newFile':
-                    // this.openWyj()
+                    this.setState({ createMenuShow: true })
                     break
                 case 'remind':
                     item.link = this.replaceAction('../../ctrl/remind/index')
                     this.sendBroadcastMessage({
                         type: 'addTab',
-                        className: '',
+                        className: 'IMainIframe',
                         message: item
                     })
                     break
@@ -432,7 +431,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
         } else {
             this.sendBroadcastMessage({
                 type: 'addTab',
-                className: '',
+                className: 'IMainIframe',
                 message: item
             })
         }
@@ -493,7 +492,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                             )
                         })}
                 </div>
-                <CreateMenu createMenuShow={this.state.createMenuShow}></CreateMenu>
+                <CreateMenu createMenuShow={this.state.createMenuShow} handleCreateMenuClose={this.handleCreateMenuClose.bind(this)}></CreateMenu>
                 <CommonFunction
                     commonFunctionShow={this.state.commonFunctionShow}
                     handleCommonFunctionClose={this.handleCommonFunctionClose.bind(this)}

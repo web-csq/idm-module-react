@@ -253,7 +253,7 @@ const CommonFunction: React.FC<IProp> = (props) => {
     }
     return (
         <Modal
-            title="快捷应用"
+            title="常用功能"
             width={900}
             footer={
                 <div style={{ textAlign: 'center' }}>
