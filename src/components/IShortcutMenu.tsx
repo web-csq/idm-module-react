@@ -275,8 +275,8 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
         const index = indexs + 1
         return {
             left:
-                this.state.isDisplayRight && this.state.isHover ? (this.state.propData.width + 1) * index + 'px' : '0',
-            transition: `left ${index * 0.05}s`,
+                this.state.isDisplayRight && this.state.isHover ? (this.state.propData.width + 0.8) * index + 'px' : '0',
+            transition: `left ${index * 0.04}s`,
             zIndex: index
         }
     }
@@ -378,7 +378,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
 
     handleClickIcon() {
         if (this.state.env === 'develop') return
-        this.setState({ createMenuShow: true })
+        this.setState({ commonFunctionShow: true })
     }
 
     handleCommonFunctionClose(e) {
