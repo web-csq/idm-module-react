@@ -20,7 +20,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
     constructor(props) {
         super(props)
         this.state = {
-            shortCutData: responseData.data,
+            shortCutData: [],
             createMenuShow: false,
             commonFunctionShow: false,
             isHover: false,

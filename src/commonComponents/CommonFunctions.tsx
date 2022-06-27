@@ -253,6 +253,7 @@ const CommonFunction: React.FC<IProp> = (props) => {
     }
     return (
         <Modal
+            maskClosable={false}
             title="常用功能"
             width={900}
             footer={

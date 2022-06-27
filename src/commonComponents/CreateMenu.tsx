@@ -8,7 +8,6 @@ interface IProp {
     handleCreateMenuClose: (e: any) => void
 }
 interface IState {
-    allDataObject: object
     cyDataObject: Array<any>
     searchValue: string
     changeUrl: string
@@ -17,11 +16,11 @@ interface IState {
 const CreateMenu: React.FC<IProp> = (props) => {
     const [pageState, setPageState] = useState<IState>({
         cyDataObject: [],
-        allDataObject: {},
         searchValue: '',
         changeUrl: 'ctrl/shortcut/change',
         dialogHeight: 400
     })
+    const [allDataObject, setAllDataObject] = useState({})
     const [activeAnchor, setActiveAnchor] = useState(0)
     useEffect(() => {
         if (props.createMenuShow) {
@@ -29,20 +28,16 @@ const CreateMenu: React.FC<IProp> = (props) => {
         }
     }, [props.createMenuShow])
     useEffect(() => {
-        if (pageState.cyDataObject.length > 0 && Object.keys(pageState.allDataObject).length > 0) {
+        if (pageState.cyDataObject.length > 0 && Object.keys(allDataObject).length > 0) {
             initAnchorContentScroll()
         }
-    }, [pageState.cyDataObject, pageState.allDataObject])
+    }, [pageState.cyDataObject, allDataObject])
     const initData = () => {
         window.IDM.http
             .get('ctrl/api/frame/getBusinessShortcuts?key=' + pageState.searchValue)
             .then((res) => {
                 if (res && res.data && res.data.data) {
-                    console.log(res.data.data, '< ---------------')
-                    setPageState({
-                        ...pageState,
-                        allDataObject: res.data.data
-                    })
+                    setAllDataObject(res.data.data)
                 }
                 initCygnData()
             })
@@ -135,6 +130,7 @@ const CreateMenu: React.FC<IProp> = (props) => {
     return (
         <Modal
             title="我要建"
+            maskClosable={false}
             width={900}
             footer={
                 <div style={{ textAlign: 'center' }}>
@@ -175,13 +171,13 @@ const CreateMenu: React.FC<IProp> = (props) => {
                             ))}
                         </div>
                     </div>
-                    {Object.keys(pageState.allDataObject).map((el: string, index) => (
+                    {Object.keys(allDataObject).map((el: string, index) => (
                         <div className="idm-create-menu-app-group-item" key={index}>
                             <div className="idm-create-menu-app-group-title">
                                 <div>{el}</div>
                             </div>
                             <div className="idm-create-menu-app-group-content">
-                                {pageState.allDataObject[el]?.children?.map((els, indexs) => (
+                                {allDataObject[el]?.children?.map((els, indexs) => (
                                     <div key={indexs + 1111}>
                                         <div
                                             className="idm-create-menu-app-element-item"
@@ -205,7 +201,7 @@ const CreateMenu: React.FC<IProp> = (props) => {
                         >
                             <i></i>常用
                         </div>
-                        {Object.keys(pageState.allDataObject).map((el: string, index) => (
+                        {Object.keys(allDataObject).map((el: string, index) => (
                             <div
                                 className={`idm-create-menu-inner-item ${activeAnchor === index + 1 ? 'active' : ''}`}
                                 onClick={() => jumpAnchor(index + 1)}
