@@ -247,7 +247,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
     sliceShortcutData() {
         const list: Array<any> = []
         const number = this.getOneLineNumber()
-        this.state.shortCutData.shortCut.forEach((element, index) => {
+        this.state.shortCutData?.shortCut?.forEach((element, index) => {
             let key = Math.floor(index / number)
             if (!list[key]) {
                 list[key] = []
