@@ -26,7 +26,7 @@
                     "text": "组件标题",
                     "bindKey": "title",
                     "default": "快捷菜单",
-                    "desc": "将内容显示为html标签的title，也就是鼠标放上去会有显示文本内容的文字"
+                    "desc": "将内容显示为html标签的title"
                 },
                 {
                     "type": "input",
