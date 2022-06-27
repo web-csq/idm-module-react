@@ -20,7 +20,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
     constructor(props) {
         super(props)
         this.state = {
-            shortCutData: [],
+            shortCutData: {shortCut: [{name: ' ',}]},
             createMenuShow: false,
             commonFunctionShow: false,
             isHover: false,
@@ -276,7 +276,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
         return {
             left:
                 this.state.isDisplayRight && this.state.isHover ? (this.state.propData.width + 1) * index + 'px' : '0',
-            transition: `left ${index * 0.06}s`,
+            transition: `left ${index * 0.05}s`,
             zIndex: index
         }
     }
