@@ -78,15 +78,15 @@
                     "bindKey": "heightType",
                     "dictionary": [
                         {
-                            "label": "固定值",
-                            "value": "fixed"
-                        },
-                        {
                             "label": "适应容器",
                             "value": "adaptive"
+                        },
+                        {
+                            "label": "固定值",
+                            "value": "fixed"
                         }
                     ],
-                    "default": "fixed"
+                    "default": "adaptive"
                 },
                 {
                     "type": "inputNumber",
