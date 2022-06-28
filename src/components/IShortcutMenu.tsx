@@ -441,7 +441,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
             return
         }
         if (item.action.indexOf('javascript') === 0) {
-            eval(this.replaceAction(item.link).replace('javascript:', ''))
+            eval(this.replaceAction(item.action).replace('javascript:', ''))
         } else {
             this.sendBroadcastMessage({
                 type: 'addTab',
