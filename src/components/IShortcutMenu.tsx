@@ -440,7 +440,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
             }
             return
         }
-        if (item.action.indexOf('javascript') === 0) {
+        if (item?.action?.indexOf('javascript') === 0) {
             eval(this.replaceAction(item.action).replace('javascript:', ''))
         } else {
             this.sendBroadcastMessage({
@@ -460,7 +460,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                 <div idm-ctrl="idm_module" className="idm-shortcut-menu" idm-ctrl-id={id}>
                     <div
                         className="idm-shortcut-menu-box-container"
-                        style={{ left: 0, zIndex: 200, height: moduleHeight + 'px' }}
+                        style={{ left: 0, zIndex: 1000, height: moduleHeight + 'px' }}
                         onMouseLeave={() => handleMouseLeave.call(this)}
                         onMouseEnter={() => handleMouseEnter.call(this, 'left')}
                     >
