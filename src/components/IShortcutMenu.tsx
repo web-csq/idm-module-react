@@ -325,8 +325,8 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
             //自适应父级容器
             moduleHeight = wrapperHeight
         }
-        this.setState({
-            moduleHeight
+        this.setState({ moduleHeight }, () => {
+            this.sliceShortcutData()
         })
     }
     /**
