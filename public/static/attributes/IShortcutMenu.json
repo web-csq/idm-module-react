@@ -91,10 +91,26 @@
                 {
                     "type": "inputNumber",
                     "layoutType": "inline",
-                    "text": "宽(px)",
+                    "text": "单列宽(px)",
                     "desc": "填写auto则为自适应，或者使用px、%、vw等单位，比如100%、100px、100vw等等",
                     "bindKey": "width",
                     "default": 60
+                },
+                {
+                    "type": "inputNumber",
+                    "layoutType": "inline",
+                    "text": "文本容器(px)",
+                    "desc": "由于单列显示数量是根据高度计算，所以文本改变时，要设置对应的字体容器高度",
+                    "bindKey": "textHeight",
+                    "default": 40
+                },
+                {
+                    "type": "inputNumber",
+                    "layoutType": "inline",
+                    "text": "图标大小",
+                    "desc": "设置图标大小",
+                    "bindKey": "iconSize",
+                    "default": 22
                 },
                 {
                     "type": "inputNumber",

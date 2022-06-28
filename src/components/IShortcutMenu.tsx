@@ -56,7 +56,8 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
     convertAttrToStyleObject(stateObj) {
         const { propData, id } = stateObj
         const styleObject = {},
-            fontObj = {}
+            fontObj = {},
+            iconSizeObj = {}
         if (propData.bgSize && propData.bgSize === 'custom') {
             styleObject['background-size'] =
                 (propData.bgSizeWidth ? propData.bgSizeWidth.inputVal + propData.bgSizeWidth.selectVal : 'auto') +
@@ -81,9 +82,15 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                     case 'width':
                         styleObject[key] = element + 'px'
                         break
+                    case 'textHeight':
+                        fontObj['height'] = element + 'px'
+                        break
+                    case 'iconSize': 
+                        iconSizeObj['font-size'] = element + 'px'
+                        break
                     case 'font':
                         fontObj['font-family'] = element.fontFamily
-                        if (element.fontColors.hex8) {
+                        if (element?.fontColors?.hex8) {
                             fontObj['color'] = element.fontColors.hex8
                         }
                         fontObj['font-weight'] = element.fontWeight && element.fontWeight.split(' ')[0]
@@ -153,6 +160,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
             height: `calc(${this.state.moduleHeight}px - 60px)`
         })
         window.IDM.setStyleToPageHead(id + ' .idm-shortcut-menu-box-container .idm-shortcut-menu-text', fontObj)
+        window.IDM.setStyleToPageHead(id + ' .idm-shortcut-menu-box-container .idm-shortcut-menu-icon', iconSizeObj)
         this.initData()
     }
     // 获取单列数量
@@ -258,7 +266,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
         this.setState({ pageShortcutList: list })
     }
     componentDidMount() {
-        this.sliceShortcutData()
+        
     }
     handleMouseEnter(type: 'left' | 'right') {
         if (type === 'left') {
@@ -291,6 +299,12 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
      * 加载动态数据
      */
     initData() {
+        if(this.state.env === 'develop') {
+            this.setState({ shortCutData: responseData.data }, () => {
+                this.sliceShortcutData()
+            })
+            return
+        }
         this.state.propData.interfaceUrl &&
             window.IDM.http
                 .get(this.state.propData.interfaceUrl)

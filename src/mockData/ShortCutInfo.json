@@ -80,7 +80,7 @@
             {
                 "badgeAction": "",
                 "isTabReload": "-1",
-                "name": "服务开通情况一览",
+                "name": "服务情况",
                 "icon": "iconfuwuzhongxin",
                 "link": "../../ctrl/list/180925211618rGFRO5jFc3h5FZSbEOx?moduleId=180925211500xenaLiFJZFBs5FxtCK7",
                 "menuId": "180802174710CM1ne8oS7D9uZ3QlRnN",
@@ -90,7 +90,7 @@
             {
                 "badgeAction": "",
                 "isTabReload": "-1",
-                "name": "机构管理",
+                "name": "开通管理",
                 "icon": "menu-42",
                 "link": "../../ctrl/orginization/index",
                 "menuId": "180507204333hkDTTumAXqB2W3q3pu1",
@@ -100,7 +100,7 @@
             {
                 "badgeAction": "",
                 "isTabReload": "-1",
-                "name": "机构角色维护",
+                "name": "属性维护",
                 "icon": "",
                 "link": "../../ctrl/application/index?type=role",
                 "menuId": "200424102840NHVkQfZ8aQpyhOJtZQ4",
@@ -110,7 +110,7 @@
             {
                 "badgeAction": "",
                 "isTabReload": "-1",
-                "name": "部门管理",
+                "name": "树形结构",
                 "icon": "menu-51",
                 "link": "../../ctrl/department/index",
                 "menuId": "180507204333hkDTTumAXqB2W3q3puV",
@@ -120,7 +120,7 @@
             {
                 "badgeAction": "",
                 "isTabReload": "-1",
-                "name": "权限管理",
+                "name": "菜单管理",
                 "icon": "iconquanxianguanli",
                 "link": "../../ctrl/privilege/index",
                 "menuId": "1805081136094gsfJ7tfaXNlwpcfUWi",
@@ -130,7 +130,7 @@
             {
                 "badgeAction": "",
                 "isTabReload": "-1",
-                "name": "用户管理",
+                "name": "所有用户",
                 "icon": "iconaccount-circle",
                 "link": "../../ctrl/userinfo/index",
                 "menuId": "180506173617E0znmguVS9bLS3j7GlA",
@@ -140,7 +140,7 @@
             {
                 "badgeAction": "",
                 "isTabReload": "-1",
-                "name": "机构权限维护",
+                "name": "机构权限，超长机构权限，超长机构权限",
                 "icon": "",
                 "link": "../../ctrl/application/index?type=privilege",
                 "menuId": "200424101949DugVFqB4DgX24nbcbhH",
