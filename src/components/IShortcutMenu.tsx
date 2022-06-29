@@ -441,7 +441,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
         if (item?.link?.indexOf('javascript') === 0) {
             eval(this.replaceAction(item.link).replace('javascript:', ''))
         } else {
-            if(item.target == "newmain") {
+            if(item.target === "newmain") {
                 let action = this.replaceAction(item.link);
                 window.open(action, "_blank")
             }else {
