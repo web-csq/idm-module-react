@@ -74,7 +74,7 @@ const CommonFunction: React.FC<IProp> = (props) => {
     const handleOk = () => {
         props.handleCommonFunctionClose(1)
     }
-    const handleSeachChange = (e) => {
+    const handleSearchChange = (e) => {
         setPageState({
             ...pageState,
             searchValue: e.target.value
@@ -82,7 +82,6 @@ const CommonFunction: React.FC<IProp> = (props) => {
     }
     const menuSearch = () => {
         let dxDataList: Array<any> = []
-
         if (pageState.searchValue === '') {
             setPageState({
                 ...pageState,
@@ -90,19 +89,19 @@ const CommonFunction: React.FC<IProp> = (props) => {
             })
             return
         }
-        dxDataList = pageState.dxDataList
+        dxDataList = JSON.parse(pageState.lsDataList)
         let searchValueVar = pageState.searchValue
         let searchDataList: Array<any> = []
         dxDataList.forEach((item: any) => {
             let children: Array<any> = []
-            item.children &&
-                item.children.forEach((sitem: any) => {
-                    if (sitem.menuName.indexOf(searchValueVar) > -1) {
+                item?.children?.forEach((sitem: any) => {
+                    if (sitem?.menuName?.indexOf(searchValueVar) > -1) {
                         children.push(sitem)
                     }
                 })
             var newObject = item
             newObject.children = children
+            debugger
             if (newObject.menuName.indexOf(searchValueVar) > -1 || newObject.children.length > 0) {
                 searchDataList.push(newObject)
             }
@@ -137,7 +136,6 @@ const CommonFunction: React.FC<IProp> = (props) => {
         // 监听dom元素的scroll事件
         scrollBox.scroll(function () {
             const current_offset_top = scrollBox.scrollTop() || 0
-            console.log(current_offset_top)
             for (let i = 0; i < topArr.length; i++) {
                 if (current_offset_top <= topArr[i]) {
                     // 根据滚动距离判断应该滚动到第几个导航的位置
@@ -269,7 +267,7 @@ const CommonFunction: React.FC<IProp> = (props) => {
                 <input
                     type="text"
                     onKeyUp={menuSearch}
-                    onChange={(e) => handleSeachChange(e)}
+                    onChange={(e) => handleSearchChange(e)}
                     value={pageState.searchValue}
                     placeholder="请输入关键词进行检索"
                 />
