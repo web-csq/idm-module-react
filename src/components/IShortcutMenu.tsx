@@ -433,19 +433,19 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                     item.link = this.replaceAction('../../ctrl/remind/index')
                     this.sendBroadcastMessage({
                         type: 'addTab',
-                        className: 'IMainIframe',
+                        globalSend: true,
                         message: item
                     })
                     break
             }
             return
         }
-        if (item?.action?.indexOf('javascript') === 0) {
-            eval(this.replaceAction(item.action).replace('javascript:', ''))
+        if (item?.link?.indexOf('javascript') === 0) {
+            eval(this.replaceAction(item.link).replace('javascript:', ''))
         } else {
             this.sendBroadcastMessage({
                 type: 'addTab',
-                className: 'IMainIframe',
+                globalSend: true,
                 message: item
             })
         }
