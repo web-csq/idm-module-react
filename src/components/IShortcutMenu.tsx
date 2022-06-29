@@ -155,10 +155,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                 }
             }
         }
-        window.IDM.setStyleToPageHead(id + ' .idm-shortcut-menu-box-container', {
-            ...styleObject,
-            height: `calc(${this.state.moduleHeight}px - 60px)`
-        })
+        window.IDM.setStyleToPageHead(id + ' .idm-shortcut-menu-box-container', styleObject)
         window.IDM.setStyleToPageHead(id + ' .idm-shortcut-menu-box-container .idm-shortcut-menu-text', fontObj)
         window.IDM.setStyleToPageHead(id + ' .idm-shortcut-menu-box-container .idm-shortcut-menu-icon', iconSizeObj)
         this.initData()
@@ -285,7 +282,8 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
             left:
                 this.state.isDisplayRight && this.state.isHover ? (this.state.propData.width + 0.8) * index + 'px' : '0',
             transition: `left ${index * 0.04}s`,
-            zIndex: index
+            zIndex: index,
+            height: this.state.moduleHeight + 'px'
         }
     }
     /**
