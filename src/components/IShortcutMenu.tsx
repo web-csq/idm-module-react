@@ -282,7 +282,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                     ? (this.state.propData.width + 0.8) * index + 'px'
                     : '0',
             transition: `left ${index * 0.04}s`,
-            zIndex: index,
+            zIndex: index + 100,
             height: this.state.moduleHeight
         }
     }
