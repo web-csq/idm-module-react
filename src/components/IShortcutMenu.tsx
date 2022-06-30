@@ -377,6 +377,11 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                     }
                 }
                 break
+            case 'pageResize': {
+                if(this.state.propData.heightType === 'fixed') {
+                    this.sliceShortcutData()
+                }
+            }
         }
     }
 
