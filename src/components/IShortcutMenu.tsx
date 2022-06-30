@@ -327,6 +327,15 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
             this.sliceShortcutData()
         })
     }
+    sendMessageToLayout() {
+        this.sendBroadcastMessage({
+            type: 'menuWidthChange',
+            className: "IFullScreenLayout",
+            message: {
+                menuWidth: this.state.propData.width + 'px'
+            }
+        })
+    }
     /**
      * 提供父级组件调用的刷新prop数据组件
      */
@@ -338,6 +347,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
             this.convertThemeListAttrToStyleObject()
             this.resizeContentWrapperHeight()
             this.loadIconFile()
+            this.sendMessageToLayout()
         })
         // 另一种方法，把state当参数传进去，确保数据同步
         this.convertAttrToStyleObject(stateObj)
@@ -385,13 +395,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
             // 刷新菜单收缩
             case 'getMenuWidth':
                 setTimeout(() => {
-                    this.sendBroadcastMessage({
-                        type: 'menuWidthChange',
-                        className: 'IFullScreenLayout',
-                        message: {
-                            menuWidth: this.state.propData.width + 'px'
-                        }
-                    })
+                    this.sendMessageToLayout()
                 }, 100)
                 break
         }
