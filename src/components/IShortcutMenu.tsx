@@ -378,10 +378,22 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                 }
                 break
             case 'pageResize': {
-                if(this.state.propData.heightType === 'fixed') {
+                if (this.state.propData.heightType === 'fixed') {
                     this.sliceShortcutData()
                 }
             }
+            // 刷新菜单收缩
+            case 'getMenuWidth':
+                setTimeout(() => {
+                    this.sendBroadcastMessage({
+                        type: 'menuWidthChange',
+                        className: 'IFullScreenLayout',
+                        message: {
+                            menuWidth: this.state.propData.width + 'px'
+                        }
+                    })
+                }, 100)
+                break
         }
     }
 
