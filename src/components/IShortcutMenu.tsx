@@ -6,7 +6,7 @@ import CreateMenu from '../commonComponents/CreateMenu'
 import CommonFunction from '../commonComponents/CommonFunctions'
 interface IState extends IDMCommonState {
     text: string
-    moduleHeight: number
+    moduleHeight: string
     isHover: boolean
     isDisplayRight: boolean
     shortCutData: {
@@ -20,12 +20,12 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
     constructor(props) {
         super(props)
         this.state = {
-            shortCutData: {shortCut: [{name: ' ',}]},
+            shortCutData: { shortCut: [{ name: ' ' }] },
             createMenuShow: false,
             commonFunctionShow: false,
             isHover: false,
             isDisplayRight: true,
-            moduleHeight: 800,
+            moduleHeight: '800px',
             pageShortcutList: [
                 [
                     {
@@ -85,7 +85,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                     case 'textHeight':
                         fontObj['height'] = element + 'px'
                         break
-                    case 'iconSize': 
+                    case 'iconSize':
                         iconSizeObj['font-size'] = element + 'px'
                         break
                     case 'font':
@@ -262,9 +262,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
         console.log(list, '<------------- Slice done')
         this.setState({ pageShortcutList: list })
     }
-    componentDidMount() {
-        
-    }
+    componentDidMount() {}
     handleMouseEnter(type: 'left' | 'right') {
         if (type === 'left') {
             this.setState({
@@ -280,10 +278,12 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
         const index = indexs + 1
         return {
             left:
-                this.state.isDisplayRight && this.state.isHover ? (this.state.propData.width + 0.8) * index + 'px' : '0',
+                this.state.isDisplayRight && this.state.isHover
+                    ? (this.state.propData.width + 0.8) * index + 'px'
+                    : '0',
             transition: `left ${index * 0.04}s`,
             zIndex: index,
-            height: this.state.moduleHeight + 'px'
+            height: this.state.moduleHeight
         }
     }
     /**
@@ -297,7 +297,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
      * 加载动态数据
      */
     initData() {
-        if(this.state.env === 'develop') {
+        if (this.state.env === 'develop') {
             this.setState({ shortCutData: responseData.data }, () => {
                 this.sliceShortcutData()
             })
@@ -321,7 +321,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
         let moduleHeight = this.state.propData.moduleHeight
         if (this.state.propData.heightType === 'adaptive' && wrapperHeight) {
             //自适应父级容器
-            moduleHeight = wrapperHeight
+            moduleHeight = wrapperHeight + 'px'
         }
         this.setState({ moduleHeight }, () => {
             this.sliceShortcutData()
@@ -441,10 +441,10 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
         if (item?.link?.indexOf('javascript') === 0) {
             eval(this.replaceAction(item.link).replace('javascript:', ''))
         } else {
-            if(item.target === "newmain") {
-                let action = this.replaceAction(item.link);
-                window.open(action, "_blank")
-            }else {
+            if (item.target === 'newmain') {
+                let action = this.replaceAction(item.link)
+                window.open(action, '_blank')
+            } else {
                 this.sendBroadcastMessage({
                     type: 'addTab',
                     globalSend: true,
@@ -460,25 +460,25 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
         const { pageShortcutList, moduleHeight } = this.state
         return (
             <>
-                <div idm-ctrl="idm_module" className="idm-shortcut-menu" idm-ctrl-id={id}>
+                <div idm-ctrl='idm_module' className='idm-shortcut-menu' idm-ctrl-id={id}>
                     <div
-                        className="idm-shortcut-menu-box-container"
-                        style={{ left: 0, zIndex: 1000, height: moduleHeight + 'px' }}
+                        className='idm-shortcut-menu-box-container'
+                        style={{ left: 0, zIndex: 1000, height: moduleHeight }}
                         onMouseLeave={() => handleMouseLeave.call(this)}
                         onMouseEnter={() => handleMouseEnter.call(this, 'left')}
                     >
                         {pageShortcutList[0].map((el) => (
-                            <div className="idm-shortcut-menu-box" key={el.id} onClick={() => this.handleClickItem(el)}>
+                            <div className='idm-shortcut-menu-box' key={el.id} onClick={() => this.handleClickItem(el)}>
                                 <i className={`idm-shortcut-menu-icon ${this.handleIconClassName(el)}`}></i>
-                                <div className="idm-shortcut-menu-text" title={el.name}>
+                                <div className='idm-shortcut-menu-text' title={el.name}>
                                     {el.name}
                                 </div>
                             </div>
                         ))}
-                        <div className="idm-shortcut-menu-add">
+                        <div className='idm-shortcut-menu-add'>
                             <i
                                 onClick={this.handleClickIcon.bind(this)}
-                                className="oa-menu-iconfont oa-menu-zengjiatianjiajiahao idm-shortcut-menu-add-icon"
+                                className='oa-menu-iconfont oa-menu-zengjiatianjiajiahao idm-shortcut-menu-add-icon'
                             ></i>
                         </div>
                     </div>
@@ -489,18 +489,18 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                                 <div
                                     onMouseLeave={() => handleMouseLeave.call(this)}
                                     onMouseEnter={() => handleMouseEnter.call(this, 'right')}
-                                    className="idm-shortcut-menu-box-container"
+                                    className='idm-shortcut-menu-box-container'
                                     key={indexs}
                                     style={this.getPositionStyle(indexs)}
                                 >
                                     {els.map((item) => (
                                         <div
-                                            className="idm-shortcut-menu-box"
+                                            className='idm-shortcut-menu-box'
                                             key={item.id}
                                             onClick={() => this.handleClickItem(item)}
                                         >
-                                            <i className="oa-menu-iconfont oa-menu-tuceng idm-shortcut-menu-icon"></i>
-                                            <div className="idm-shortcut-menu-text" title={item.name}>
+                                            <i className='oa-menu-iconfont oa-menu-tuceng idm-shortcut-menu-icon'></i>
+                                            <div className='idm-shortcut-menu-text' title={item.name}>
                                                 {item.name}
                                             </div>
                                         </div>
@@ -509,7 +509,10 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                             )
                         })}
                 </div>
-                <CreateMenu createMenuShow={this.state.createMenuShow} handleCreateMenuClose={this.handleCreateMenuClose.bind(this)}></CreateMenu>
+                <CreateMenu
+                    createMenuShow={this.state.createMenuShow}
+                    handleCreateMenuClose={this.handleCreateMenuClose.bind(this)}
+                ></CreateMenu>
                 <CommonFunction
                     commonFunctionShow={this.state.commonFunctionShow}
                     handleCommonFunctionClose={this.handleCommonFunctionClose.bind(this)}

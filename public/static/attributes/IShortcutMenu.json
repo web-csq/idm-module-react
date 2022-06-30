@@ -78,15 +78,15 @@
                     "bindKey": "heightType",
                     "dictionary": [
                         {
-                            "label": "适应容器",
-                            "value": "adaptive"
-                        },
-                        {
                             "label": "固定值",
                             "value": "fixed"
+                        },
+                        {
+                            "label": "适应容器",
+                            "value": "adaptive"
                         }
                     ],
-                    "default": "adaptive"
+                    "default": "fixed"
                 },
                 {
                     "type": "inputNumber",
@@ -113,15 +113,13 @@
                     "default": 22
                 },
                 {
-                    "type": "inputNumber",
+                    "type": "input",
                     "layoutType": "inline",
-                    "text": "高度(px)",
+                    "text": "高度",
                     "bindKey": "moduleHeight",
-                    "desc": "用于设置组件的具体高度px值",
-                    "maxLength": 10000,
+                    "desc": "用于设置组件的具体高度值",
                     "display": "@[heightType == 'fixed']",
-                    "minLength": 200,
-                    "default": 800
+                    "default": "800px"
                 },
                 {
                     "type": "box",
