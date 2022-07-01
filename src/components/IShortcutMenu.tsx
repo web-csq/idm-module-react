@@ -286,12 +286,79 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
             height: this.state.moduleHeight
         }
     }
+    setContextValue(object) {
+        console.log('统一接口设置的值', object)
+        if (object.type != 'pageCommonInterface') {
+            return
+        }
+        if (object.key == this.state.propData.dataName) {
+            // this.propData.fontContent = this.getExpressData(this.propData.dataName,this.propData.dataFiled,object.data);
+            this.setState(
+                {
+                    shortCutData: this.getExpressData(
+                        this.state.propData.dataName,
+                        this.state.propData.dataFiled,
+                        object.data
+                    )
+                },
+                () => {
+                    this.sliceShortcutData()
+                }
+            )
+        }
+    }
     /**
      * 重新加载
      */
     reload() {
         //请求数据源
         this.initData()
+    }
+    /**
+     * 通用的url参数对象
+     * 所有地址的url参数转换
+     */
+    commonParam() {
+        let urlObject = window.IDM.url.queryObject()
+        var params = {
+            pageId: window.IDM.broadcast && window.IDM.broadcast.pageModule ? window.IDM.broadcast.pageModule.id : '',
+            urlData: JSON.stringify(urlObject)
+        }
+        return params
+    }
+    /**
+     * 通用的获取表达式匹配后的结果
+     */
+    getExpressData(dataName, dataFiled, resultData) {
+        //给defaultValue设置dataFiled的值
+        var _defaultVal: any = undefined
+        if (dataFiled) {
+            var filedExp = dataFiled
+            filedExp = dataName + (filedExp.startsWiths('[') ? '' : '.') + filedExp
+            var dataObject = { IDM: window.IDM }
+            dataObject[dataName] = resultData
+            _defaultVal = window.IDM.express.replace.call(this, '@[' + filedExp + ']', dataObject)
+        }
+        //对结果进行再次函数自定义
+        if (this.state.propData.customFunction && this.state.propData.customFunction.length > 0) {
+            var params = this.commonParam()
+            var resValue = ''
+            try {
+                const funcName: string | undefined = this.state.propData.customFunction[0].name
+                resValue =
+                    funcName &&
+                    window[funcName].call(this, {
+                        ...params,
+                        ...this.state.propData.customFunction[0].param,
+                        moduleObject: this.state,
+                        expressData: _defaultVal,
+                        interfaceData: resultData
+                    })
+            } catch (error) {}
+            _defaultVal = resValue
+        }
+
+        return _defaultVal
     }
     /**
      * 加载动态数据
@@ -303,6 +370,54 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
             })
             return
         }
+        switch (this.state.propData.dataSourceType) {
+            case 'customInterface':
+                this.state.propData.interfaceUrl &&
+                    window.IDM.http
+                        .get(this.state.propData.interfaceUrl)
+                        .then((res) => {
+                            if (res.status == 200 && res.data.code == 200) {
+                                this.setState({ shortCutData: res.data.data }, () => {
+                                    this.sliceShortcutData()
+                                })
+                            } else {
+                                window.IDM.message.error(res.data.message)
+                            }
+                        })
+                        .catch(function (error) {})
+                break
+            case 'pageCommonInterface':
+                //使用通用接口直接跳过，在setContextValue执行
+                break
+            case 'customFunction':
+                var params = this.commonParam()
+                if (this.state.propData.customFunction && this.state.propData.customFunction.length > 0) {
+                    try {
+                        const funcName: string | undefined = this.state.propData.customFunction[0]?.name
+                        const resValue =
+                            funcName &&
+                            window[funcName].call(this, {
+                                ...params,
+                                ...this.state.propData.customFunction[0].param,
+                                moduleObject: this.state.moduleObject
+                            })
+                        this.setState(
+                            {
+                                shortCutData: this.getExpressData(
+                                    this.state.propData.dataName,
+                                    this.state.propData.dataFiled,
+                                    resValue
+                                )
+                            },
+                            () => {
+                                this.sliceShortcutData()
+                            }
+                        )
+                    } catch (error) {}
+                }
+                break
+        }
+
         this.state.propData.interfaceUrl &&
             window.IDM.http
                 .get(this.state.propData.interfaceUrl)
@@ -330,7 +445,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
     sendMessageToLayout() {
         this.sendBroadcastMessage({
             type: 'menuWidthChange',
-            className: "IFullScreenLayout",
+            className: 'IFullScreenLayout',
             message: {
                 menuWidth: this.state.propData.width + 'px'
             }

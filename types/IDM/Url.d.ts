@@ -9,5 +9,5 @@ export interface IDMUrl {
   analyzing(url: string): object
   getURLRoot():string
   getContextWebUrl(url: string): string
-  queryObject(url: string): object
+  queryObject(url?: string): object
 }

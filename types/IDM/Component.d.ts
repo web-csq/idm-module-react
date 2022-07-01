@@ -24,4 +24,5 @@ interface IDMReactComponent {
   receiveBroadcastMessage(object: any):void
   idmSetContextValue(object: any):void
   idmGetContextValue(): any
+  setContextValue(object: any): void
 }

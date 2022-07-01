@@ -30,7 +30,7 @@ import config from '../../public/static/config.json'
                 // 接收消息
                 moduleObject.idmBroadcastMessage = object => childCom?.current?.receiveBroadcastMessage(object)
                 // 交互功能：设置组件的上下文内容值
-                moduleObject.idmSetContextValue = object => {}
+                moduleObject.idmSetContextValue = object => childCom?.current?.setContextValue(object)
                 // 交互功能：获取需要返回的值
                 moduleObject.idmGetContextValue = () => {}
                 useEffect(() => {

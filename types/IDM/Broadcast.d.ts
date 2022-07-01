@@ -31,6 +31,9 @@ export interface OpenControlOptions<T = function>{
 }
 
 export interface IDMBroadcast {
+  pageModule: {
+    id: string
+  }
   send(e: IDMBroadcastMessage):void
   getModuleContextValue(pageModuleList?: Array<object>, groupKey?: string): any
   getRangeModule(pageModuleList?: Array<object>, groupKey?: string): any
