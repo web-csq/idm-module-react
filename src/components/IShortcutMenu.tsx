@@ -417,20 +417,6 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                 }
                 break
         }
-
-        this.state.propData.interfaceUrl &&
-            window.IDM.http
-                .get(this.state.propData.interfaceUrl)
-                .then((res) => {
-                    if (res.status === 200 && res.data.code === '200') {
-                        this.setState({ shortCutData: res.data.data }, () => {
-                            this.sliceShortcutData()
-                        })
-                    } else {
-                        window.IDM.message.error(res.data.message)
-                    }
-                })
-                .catch(function (error) {})
     }
     resizeContentWrapperHeight(wrapperHeight?: number) {
         let moduleHeight = this.state.propData.moduleHeight
@@ -463,9 +449,8 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
             this.resizeContentWrapperHeight()
             this.loadIconFile()
             this.sendMessageToLayout()
+            this.convertAttrToStyleObject(stateObj)
         })
-        // 另一种方法，把state当参数传进去，确保数据同步
-        this.convertAttrToStyleObject(stateObj)
     }
     /**
      * 组件通信：发送消息的方法
