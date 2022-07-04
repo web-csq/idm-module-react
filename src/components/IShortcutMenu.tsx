@@ -635,7 +635,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                                             key={item.id}
                                             onClick={() => this.handleClickItem(item)}
                                         >
-                                            <i className='oa-menu-iconfont oa-menu-tuceng idm-shortcut-menu-icon'></i>
+                                            <i className={`idm-shortcut-menu-icon ${this.handleIconClassName(item)}`}></i>
                                             <div className='idm-shortcut-menu-text' title={item.name}>
                                                 {item.name}
                                             </div>
