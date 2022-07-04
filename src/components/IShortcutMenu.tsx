@@ -288,10 +288,10 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
     }
     setContextValue(object) {
         console.log('统一接口设置的值', object)
-        if (object.type != 'pageCommonInterface') {
+        if (object.type !== 'pageCommonInterface') {
             return
         }
-        if (object.key == this.state.propData.dataName) {
+        if (object.key === this.state.propData.dataName) {
             // this.propData.fontContent = this.getExpressData(this.propData.dataName,this.propData.dataFiled,object.data);
             this.setState(
                 {
@@ -376,7 +376,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                     window.IDM.http
                         .get(this.state.propData.interfaceUrl)
                         .then((res) => {
-                            if (res.status == 200 && res.data.code == 200) {
+                            if (res.status === 200 && res.data.code === '200') {
                                 this.setState({ shortCutData: res.data.data }, () => {
                                     this.sliceShortcutData()
                                 })
@@ -502,11 +502,11 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                     }
                 }
                 break
-            case 'pageResize': {
+            case 'pageResize':
                 if (this.state.propData.heightType === 'fixed') {
                     this.sliceShortcutData()
                 }
-            }
+                break
             // 刷新菜单收缩
             case 'getMenuWidth':
                 setTimeout(() => {
@@ -635,7 +635,9 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                                             key={item.id}
                                             onClick={() => this.handleClickItem(item)}
                                         >
-                                            <i className={`idm-shortcut-menu-icon ${this.handleIconClassName(item)}`}></i>
+                                            <i
+                                                className={`idm-shortcut-menu-icon ${this.handleIconClassName(item)}`}
+                                            ></i>
                                             <div className='idm-shortcut-menu-text' title={item.name}>
                                                 {item.name}
                                             </div>
