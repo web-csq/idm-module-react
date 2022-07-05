@@ -83,8 +83,8 @@
                 {
                     "type": "inputNumber",
                     "layoutType": "inline",
-                    "text": "文本容器(px)",
-                    "desc": "由于单列显示数量是根据高度计算，所以文本改变时，要设置对应的字体容器高度",
+                    "text": "文本容器",
+                    "desc": "由于单列显示数量是根据高度计算，所以文本改变时，要设置对应的字体容器高度，单位:px",
                     "bindKey": "textHeight",
                     "default": 40
                 },
@@ -292,19 +292,19 @@
                 {
                     "type": "font",
                     "layoutType": "block",
-                    "text": "文字",
+                    "text": "菜单文字",
                     "bindKey": "font"
                 },
                 {
                     "type": "input",
                     "layoutType": "inline",
-                    "text": "阴影",
+                    "text": "菜单阴影",
                     "bindKey": "boxShadow"
                 },
                 {
                     "type": "border",
                     "layoutType": "block",
-                    "text": "边框",
+                    "text": "菜单边框",
                     "bindKey": "border"
                 }
             ]
@@ -383,7 +383,7 @@
                     "layoutType": "inline",
                     "text": "主要颜色",
                     "bindKey": "mainColor",
-                    "desc": "主题的主要颜色",
+                    "desc": "主题的主要颜色，作用于菜单背景色",
                     "placeholder": "请选择颜色",
                     "display": "@[key]"
                 },
@@ -392,7 +392,7 @@
                     "layoutType": "inline",
                     "text": "次要颜色",
                     "bindKey": "minorColor",
-                    "desc": "主题的次要颜色",
+                    "desc": "主题的次要颜色，作用于菜单鼠标悬浮色",
                     "placeholder": "请选择颜色",
                     "display": "@[key]"
                 }
