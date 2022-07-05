@@ -294,6 +294,18 @@
                     "layoutType": "block",
                     "text": "文字",
                     "bindKey": "font"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "阴影",
+                    "bindKey": "boxShadow"
+                },
+                {
+                    "type": "border",
+                    "layoutType": "block",
+                    "text": "边框",
+                    "bindKey": "border"
                 }
             ]
         },
