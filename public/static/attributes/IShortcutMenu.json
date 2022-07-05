@@ -408,7 +408,7 @@
                     "layoutType": "inline",
                     "text": "动态内容",
                     "bindKey": "dataSourceType",
-                    "desc": "通过这些方式去动态获取结果值显示成文本内容",
+                    "desc": "通过这些方式去动态获取结果值显示成菜单内容",
                     "dictionary": [
                         {
                             "label": "自定义接口",
@@ -425,7 +425,6 @@
                     ],
                     "default": "customInterface"
                 },
-                
                 {
                     "type": "input",
                     "layoutType": "inline",
@@ -440,7 +439,7 @@
                     "layoutType": "inline",
                     "text": "结果集名",
                     "bindKey": "dataName",
-                    "desc": "页面接口设定的结果集名称，位置为：页面设置》高级设置》页面接口",
+                    "desc": "页面接口设定的结果集名称，位置为：页面设置 -> 高级设置 -> 页面接口",
                     "default": "",
                     "placeholder": "示例：resultData",
                     "display": "@[dataSourceType=='pageCommonInterface']"
