@@ -211,7 +211,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
         const oneHeight =
             parseInt(window.getComputedStyle(oneBox)['height']) +
             parseInt(window.getComputedStyle(oneBox)['margin-bottom'])
-        const totalHeight = parseInt(window.getComputedStyle(containerBox)['height']) - 70 // 减去底部的高
+        const totalHeight = parseInt(window.getComputedStyle(containerBox)['height']) - (this.state.propData.bottomContent === false ? 0 : 70) // 减去底部的高
         return Math.floor(totalHeight / oneHeight)
     }
     // 加载css
@@ -622,7 +622,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
     render() {
         const { handleMouseEnter, handleMouseLeave } = this
         const { id } = this.props
-        const { pageShortcutList, moduleHeight } = this.state
+        const { pageShortcutList, moduleHeight, propData } = this.state
         return (
             <>
                 <div idm-ctrl='idm_module' className='idm-shortcut-menu' idm-ctrl-id={id}>
@@ -640,12 +640,15 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                                 </div>
                             </div>
                         ))}
-                        <div className='idm-shortcut-menu-add'>
-                            <i
-                                onClick={this.handleClickIcon.bind(this)}
-                                className='oa-menu-iconfont oa-menu-zengjiatianjiajiahao idm-shortcut-menu-add-icon'
-                            ></i>
-                        </div>
+                        {
+                            propData.bottomContent === 'addApplication' && <div className='idm-shortcut-menu-add'>
+                                <i
+                                    onClick={this.handleClickIcon.bind(this)}
+                                    className='oa-menu-iconfont oa-menu-zengjiatianjiajiahao idm-shortcut-menu-add-icon'
+                                ></i>
+                            </div>
+                        }
+                        
                     </div>
                     {pageShortcutList
                         .filter((el, index) => index !== 0)
@@ -681,6 +684,8 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                     handleCreateMenuClose={this.handleCreateMenuClose.bind(this)}
                 ></CreateMenu>
                 <CommonFunction
+                    changeUrl={propData.cyChangeInterfaceUrl}
+                    shortcutList={propData.cyListInterfaceUrl}
                     commonFunctionShow={this.state.commonFunctionShow}
                     handleCommonFunctionClose={this.handleCommonFunctionClose.bind(this)}
                 ></CommonFunction>

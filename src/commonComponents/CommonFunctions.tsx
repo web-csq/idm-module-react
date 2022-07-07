@@ -4,6 +4,8 @@ import '../styles/commonModal.less'
 import SvgIcon from '../icons/SvgIcon'
 import { SearchOutlined, CloseOutlined } from '@ant-design/icons'
 interface IProp {
+    changeUrl: string
+    shortcutList: string
     commonFunctionShow: boolean
     handleCommonFunctionClose: (e: any) => void
 }
@@ -12,7 +14,6 @@ interface IState {
     dxDataList: Array<any>
     lsDataList: string
     searchValue: string
-    changeUrl: string
     dialogHeight: number
 }
 const CommonFunction: React.FC<IProp> = (props) => {
@@ -21,7 +22,6 @@ const CommonFunction: React.FC<IProp> = (props) => {
         dxDataList: [],
         lsDataList: '',
         searchValue: '',
-        changeUrl: 'ctrl/shortcut/change',
         dialogHeight: 400
     })
     const [activeAnchor, setActiveAnchor] = useState(0)
@@ -37,7 +37,7 @@ const CommonFunction: React.FC<IProp> = (props) => {
     }, [pageState.dxDataList, pageState.yxDataList])
     const initData = () => {
         window.IDM.http
-            .get('ctrl/shortcut/list')
+            .get(props.shortcutList)
             .then((res) => {
                 const respData = res.data
                 if (respData.code === '200') {
@@ -196,7 +196,7 @@ const CommonFunction: React.FC<IProp> = (props) => {
             portalPattern: 'dsfa'
         }
         window.IDM.http
-            .post(pageState.changeUrl, param)
+            .post(props.changeUrl, param)
             .then((res) => {
                 console.log(res.data)
             })
@@ -234,7 +234,7 @@ const CommonFunction: React.FC<IProp> = (props) => {
             portalPattern: 'dsfa'
         }
         window.IDM.http
-            .post(pageState.changeUrl, param)
+            .post(props.changeUrl, param)
             .then((res) => {
                 yxObject.id = res.data.data
                 //追加已选
