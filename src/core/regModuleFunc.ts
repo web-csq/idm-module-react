@@ -22,7 +22,7 @@ import config from '../../public/static/config.json'
             if(item.innerAttr) moduleObject.innerAttr = item.innerAttr
             //组件内部容器组件的名称
             if(item.innerComName) moduleObject.innerComName = item.innerComName
-            const root = createRoot(document.getElementById(moduleObject.id) || document.createElement('div'));
+            const root = createRoot(document.getElementById('idm_' + moduleObject.id + (moduleObject.routerId || ''))!);
             root.render(createElement(() => {
                 const childCom = useRef<IDMReactComponent>()
                 // 编辑属性更新
