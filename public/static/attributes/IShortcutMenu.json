@@ -93,7 +93,7 @@
                     "type": "inputNumber",
                     "layoutType": "inline",
                     "text": "单列宽(px)",
-                    "desc": "填写auto则为自适应，或者使用px、%、vw等单位，比如100%、100px、100vw等等",
+                    "desc": "设置快捷菜单单列的宽度，不包括鼠标悬浮后显示的其他列",
                     "bindKey": "width",
                     "default": 60
                 },

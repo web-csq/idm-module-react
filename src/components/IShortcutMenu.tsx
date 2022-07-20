@@ -79,9 +79,6 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                     continue
                 }
                 switch (key) {
-                    case 'width':
-                        styleObject[key] = element + 'px'
-                        break
                     case 'textHeight':
                         fontObj['height'] = element + 'px'
                         break
@@ -239,7 +236,8 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
         return classArray.map((el) => themePrefix + el).join(',')
     }
     // 主题
-    convertThemeListAttrToStyleObject() {
+    convertThemeListAttrToStyleObject(stateObj) {
+        const { id } = stateObj
         var themeList = this.state.propData.themeList
         if (!themeList) {
             return
@@ -265,11 +263,11 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
             }
 
             window.IDM.setStyleToPageHead(
-                '.' + themeNamePrefix + item.key + ' .idm-shortcut-menu-box-container',
+                '.' + themeNamePrefix + item.key + ` #${id} .idm-shortcut-menu-box-container`,
                 mainBgColorObj
             )
             window.IDM.setStyleToPageHead(
-                '.' + themeNamePrefix + item.key + ' .idm-shortcut-menu-box:hover',
+                '.' + themeNamePrefix + item.key + ` #${id} .idm-shortcut-menu-box:hover`,
                 minorBgColorObj
             )
 
@@ -327,7 +325,8 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                     : '0',
             transition: `left ${index * 0.04}s`,
             zIndex: index + 100,
-            height: this.state.moduleHeight
+            height: this.state.moduleHeight,
+            width: this.state.propData.width + 'px'
         }
     }
     setContextValue(object) {
@@ -489,7 +488,7 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
         this.setState(stateObj, () => {
             // setState是异步 需要放在回调里
             this.sliceShortcutData()
-            this.convertThemeListAttrToStyleObject()
+            this.convertThemeListAttrToStyleObject(stateObj)
             this.resizeContentWrapperHeight()
             this.loadIconFile()
             this.sendMessageToLayout()
@@ -625,10 +624,10 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
         const { pageShortcutList, moduleHeight, propData } = this.state
         return (
             <>
-                <div idm-ctrl='idm_module' className='idm-shortcut-menu' idm-ctrl-id={id}>
+                <div id={id} idm-ctrl='idm_module' className='idm-shortcut-menu' idm-ctrl-id={id}>
                     <div
                         className='idm-shortcut-menu-box-container'
-                        style={{ left: 0, zIndex: 1000, height: moduleHeight }}
+                        style={{ left: 0, zIndex: 1000, height: moduleHeight, width: propData.width + 'px' }}
                         onMouseLeave={() => handleMouseLeave.call(this)}
                         onMouseEnter={() => handleMouseEnter.call(this, 'left')}
                     >
