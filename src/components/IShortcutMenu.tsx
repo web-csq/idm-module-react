@@ -471,15 +471,6 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
             this.sliceShortcutData()
         })
     }
-    sendMessageToLayout() {
-        this.sendBroadcastMessage({
-            type: 'menuWidthChange',
-            className: 'IFullScreenLayout',
-            message: {
-                menuWidth: this.state.propData.width + 'px'
-            }
-        })
-    }
     /**
      * 提供父级组件调用的刷新prop数据组件
      */
@@ -491,7 +482,6 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
             this.convertThemeListAttrToStyleObject(stateObj)
             this.resizeContentWrapperHeight()
             this.loadIconFile()
-            this.sendMessageToLayout()
             this.convertAttrToStyleObject(stateObj)
         })
     }
@@ -535,12 +525,17 @@ class IShortcutMenu extends Component<IDMCommonProp, IState> {
                     this.sliceShortcutData()
                 }
                 break
-            // 刷新菜单收缩
-            case 'getMenuWidth':
-                setTimeout(() => {
-                    this.sendMessageToLayout()
-                }, 100)
-                break
+            case 'websocket':
+                const messageRefreshKey = this.state.propData.messageRefreshKey
+                if(messageRefreshKey && object.message){
+                  // eslint-disable-next-line no-mixed-operators
+                  const messageData = typeof object.message === 'string' && JSON.parse(object.message) || object.message
+                  const arr = Array.isArray(messageRefreshKey) ? messageRefreshKey : [messageRefreshKey]
+                  if(messageData.badgeType && arr.includes(messageData.badgeType)){
+                    this.initData()
+                  }
+                }
+                break;
         }
     }
 

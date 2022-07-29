@@ -494,6 +494,19 @@
                     "bindKey": "cyChangeInterfaceUrl",
                     "desc": "常用功能修改接口地址",
                     "default": "ctrl/shortcut/change"
+                },{
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "刷新KEY",
+                    "bindKey": "messageRefreshKey",
+                    "desc": "根据组件接收到消息的刷新KEY来刷新数据",
+                    "multiple": true,
+                    "placeholder": "请选择刷新KEY",
+                    "ctrlAttrObject": {
+                        "mode": "tags"
+                    },
+                    "dictionary": [
+                    ]
                 }
             ]
         }
